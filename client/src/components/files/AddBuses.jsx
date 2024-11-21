@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Footer from './Footer';
+import Navbar from './Navbar';
 
 function AddBuses() {
     const [bus, setBus] = useState({
@@ -30,18 +31,32 @@ function AddBuses() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        const token = localStorage.getItem('token'); // Retrieve the token from localStorage
+
+        if (!token) {
+            alert('You are not logged in. Please log in first.');
+            return;
+        }
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`  // Attach token here
+            }
+        };
+
         // Send the student data without token in headers
-        axios.post('http://localhost:3001/bus/create', bus)
+        axios.post('http://localhost:3001/bus/create', bus,config)
             .then(response => {
-                navigate('/landing');  // Redirect to the landing page after adding the student
+                navigate('/alanding');  // Redirect to the landing page after adding the student
             })
             .catch(error => {
-                console.error("Error adding student data:", error);
-                alert("Failed to add student. Please check the console for errors.");
+                console.error("Error adding buzs data:", error);
+                alert("Failed to add bus. Please check the console for errors.");
             });
     };
 
     return (
+        <div>
+        <Navbar/>
         <div className="container border p-5 m-5" style={{width:'100%'}}>
             <h2 className='text-center'>ADD NEW BUSES...</h2>
             <form onSubmit={handleSubmit} className="" action="#" method="POST">
@@ -120,6 +135,7 @@ function AddBuses() {
                 </div>
             </form>
             <Footer/>
+        </div>
         </div>
     );
 }

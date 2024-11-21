@@ -5,9 +5,18 @@ import { NavbarMenu } from '../../mockData/data';
 import { IoTicketSharp } from "react-icons/io5";
 import { MdMenu } from "react-icons/md";
 import ResponsiveMenu from './ResponsiveMenu';
+import { useNavigate } from 'react-router-dom';
 
 function Navbar() {
   const [open,setOpen] = useState(false)
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');  // Clear the token from localStorage
+    navigate('/');  // Redirect to the login page
+  };
+
   return (
     <>
       <div className='container flex justify-between items-center py-8'>
@@ -38,7 +47,7 @@ function Navbar() {
           <button className='text 4-xl hover:bg-red hover:text-white rounded-full p-4 duration-200'>
             <IoTicketSharp />
             </button>
-            <button className='hover:bg-red text-red font-semibold hover:text-white 
+            <button onClick={handleLogout} className='hover:bg-red text-red font-semibold hover:text-white 
             rounded-md border-2 border-red px-6 py-2 duration-200 hidden md:block'>
               Logout
             </button>

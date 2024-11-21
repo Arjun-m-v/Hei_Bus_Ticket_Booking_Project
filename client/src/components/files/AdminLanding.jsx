@@ -51,7 +51,6 @@ function Landing() {
   const handleDelete = (id) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this student?");
     if (confirmDelete) {
-
       const token = localStorage.getItem('token');
       if (!token) {
           alert("You need to log in first.");
@@ -82,7 +81,7 @@ function Landing() {
       </Link>
       </Col>
       <Col md={11}>
-        <div className='w-full h-screen overflow-auto p-8 m-33'>
+        <div className=' overflow-auto p-8 m-33'>
           <table className="w-full border-separate border-spacing-2 border border-slate-800">
           <thead>
               <tr>
@@ -136,8 +135,5 @@ function Landing() {
 }
 
 export default Landing;
-
-
-
 
 

@@ -4,13 +4,13 @@ const authenticateJWT = require('../middleware/authMiddleware');
 
 const router = express.Router()
 
-router.post('/create',createBus);
+router.post('/create',authenticateJWT,createBus);
 
 router.get('/getall',authenticateJWT,getBuses);
 
-router.get('/get/:id',getBusById);
+router.get('/get/:id',authenticateJWT,getBusById);
 
-router.put('/update/:id',updateBus);
+router.put('/update/:id',authenticateJWT,updateBus);
 
 router.delete('/delete/:id',authenticateJWT,deleteBus);
 
@@ -18,7 +18,3 @@ router.delete('/delete/:id',authenticateJWT,deleteBus);
 
 
 module.exports=router;
-
-
-
-

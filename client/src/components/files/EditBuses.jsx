@@ -2,7 +2,8 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Footer from './Footer';
-
+import Navbar from './Navbar';
+import { div } from 'framer-motion/client';
 
 function EditBuses() {
     const { id } = useParams(); // Get the student ID from the URL params
@@ -26,7 +27,11 @@ function EditBuses() {
 
     // Fetch the student data when the component is mounted
     useEffect(() => {
-        axios.get(`http://localhost:3001/bus/get/${id}`)
+        const token = localStorage.getItem('token'); // Get token from localStorage
+
+        axios.get(`http://localhost:3001/bus/get/${id}`,{
+            headers: { Authorization: `Bearer ${token}` }
+        })
             .then(response => {
                 if (response.data && response.data.busDetails) {
                     setBus(response.data.busDetails);  // Set the student data for editing
@@ -53,9 +58,19 @@ function EditBuses() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        axios.put(`http://localhost:3001/bus/update/${id}`, bus)
+        const token = localStorage.getItem('token'); // Ensure you have the token
+
+        if (!token) {
+            alert('You need to log in first!');
+            navigate('/');
+            return;
+        }
+
+        axios.put(`http://localhost:3001/bus/update/${id}`, bus,{
+            headers: { Authorization: `Bearer ${token}` }
+        })
             .then(response => {
-                navigate('/landing');  // Redirect to the landing page after updating the student
+                navigate('/alanding');  // Redirect to the landing page after updating the student
             })
             .catch(error => {
                 console.error("Error updating bus data:", error);
@@ -73,6 +88,8 @@ function EditBuses() {
     }
 
     return (
+        <div>
+            <Navbar/>
         <div className='m-5'>
             <div className="container border p-5 m-5" style={{width:'1000%'}}>
                 <h2 className='text-center'>EDIT BUS DETAILS...</h2>
@@ -151,6 +168,7 @@ function EditBuses() {
                     <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Submit</button>
                 </div>
             </form>
+            </div>
             </div>
             <Footer/>
         </div>
