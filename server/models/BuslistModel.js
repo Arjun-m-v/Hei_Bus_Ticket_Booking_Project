@@ -34,9 +34,6 @@ const bus = (sequelize,Sequelize)=>{
             available_seats:{
                 type:Sequelize.INTEGER,
             },
-            price_per_seat:{
-                type:Sequelize.INTEGER,
-            },
         }
     );
     return bus;

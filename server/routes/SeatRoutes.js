@@ -1,5 +1,5 @@
 const express = require('express')
-const { createSeat,getSeatById,getSeats,getSeatsByBusId }= require('../controllers/SeatController')
+const { createSeat,getSeatById,getSeats,getSeatsByBusId,updateSeat,deleteSeat }= require('../controllers/SeatController')
 // const authenticateJWT = require('../middleware/authMiddleware');
 
 const router = express.Router()
@@ -12,6 +12,11 @@ router.get('/getall',getSeats);
 
 router.get('/getall/:id',getSeatsByBusId);
 
-router.get('/edit/:id',editSeat);
+router.put('/update/:id',updateSeat);
+
+router.delete('/delete/:id',deleteSeat);
+
+
+
 
 module.exports=router;

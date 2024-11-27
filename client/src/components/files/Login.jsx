@@ -40,7 +40,6 @@ function Login() {
           } else if (role === false) {
             navigate('/landing');
           } else {
-            // If role is undefined or any other unexpected value, redirect to the login page
             navigate('/login');
           }
 
@@ -60,6 +59,7 @@ function Login() {
 
   return (
   <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div className='border'>
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
       <img class="mx-auto h-40 w-50" src="https://i.pinimg.com/736x/7e/f2/4d/7ef24db3928b30fd17586d85d5c1e912.jpg" alt="Your Company"/>
       <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Sign in to your Account</h2>
@@ -95,6 +95,7 @@ function Login() {
         Don't have an account?
         <Link to="/register" className="font-semibold text-indigo-600 hover:text-indigo-500"> Register</Link>
       </p>
+    </div>
     </div>
   </div>
   )

@@ -1,20 +1,27 @@
 import React, { useState } from 'react';
 import { FaSearch } from "react-icons/fa";
 import { FaBusAlt } from "react-icons/fa";
-import { NavbarMenu } from '../../mockData/data';
 import { IoTicketSharp } from "react-icons/io5";
 import { MdMenu } from "react-icons/md";
 import ResponsiveMenu from './ResponsiveMenu';
 import { useNavigate } from 'react-router-dom';
 
-function Navbar() {
+function Navbar({ onSearch }) {
   const [open, setOpen] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
   const [source, setSource] = useState('');
   const [destination, setDestination] = useState('');
 
-  
   const navigate = useNavigate();
+
+  const handleSearchChange = (e) => {
+    // Determine which field is being changed (source or destination)
+    if (e.target.placeholder === "Source") {
+      setSource(e.target.value);
+    } else if (e.target.placeholder === "Destination") {
+      setDestination(e.target.value);
+    }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('token'); // Clear the token from localStorage
@@ -22,10 +29,18 @@ function Navbar() {
   };
 
   const handleSearch = () => {
-    // Redirect to a search results page or perform search logic
+    // Ensure both source and destination are provided
     if (source && destination) {
+      // Alert user with the search details
       alert(`Searching buses from ${source} to ${destination}`);
-      setModalOpen(false); // Close the modal after search
+      // Call onSearch to notify the parent with the search query
+      onSearch(source, destination);
+  
+
+
+
+      // Close the modal after initiating the search
+      setModalOpen(false);
     } else {
       alert('Please enter both source and destination.');
     }
@@ -41,22 +56,10 @@ function Navbar() {
           <p className='text-red' style={{ fontFamily: "cursive" }}>Bus</p>
           <p style={{ fontFamily: "cursive" }}>"</p>
         </div>
-        <div className='hidden md:block'>
-          <ul className='flex items-center gap-6 text-gray-600'>
-            {NavbarMenu.map((item) => (
-              <li key={item.id}>
-                <a href={item.link} className='inline-block py-1 px-3 hover-text-red font-semibold'>
-                  {item.title}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
         <div className='flex items-center p-3'>
           <button
             className='text-2xl hover:bg-red hover:text-white rounded-full p-4 m-2 duration-200'
-            onClick={() => setModalOpen(true)}
-          >
+            onClick={() => setModalOpen(true)}>
             <FaSearch />
           </button>
           <button className='text-2xl hover:bg-red hover:text-white rounded-full p-4 m-2 duration-200'>
@@ -85,27 +88,23 @@ function Navbar() {
               type='text'
               placeholder='Source'
               value={source}
-              onChange={(e) => setSource(e.target.value)}
-              className='w-full p-2 border rounded mb-4'
-            />
+              onChange={handleSearchChange}
+              className='w-full p-2 border rounded mb-4'/>
             <input
               type='text'
               placeholder='Destination'
               value={destination}
-              onChange={(e) => setDestination(e.target.value)}
-              className='w-full p-2 border rounded mb-4'
-            />
+              onChange={handleSearchChange}
+              className='w-full p-2 border rounded mb-4'/>
             <div className='flex justify-between'>
               <button
                 onClick={handleSearch}
-                className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
-              >
+                className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'>
                 Search
               </button>
               <button
                 onClick={() => setModalOpen(false)}
-                className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-900'
-              >
+                className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-900'>
                 Cancel
               </button>
             </div>

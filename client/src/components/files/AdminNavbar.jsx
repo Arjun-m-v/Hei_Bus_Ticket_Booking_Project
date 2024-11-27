@@ -41,12 +41,12 @@ function AdminNavbar() {
           </ul>
         </div>
         <div className='flex items-center p-3'>
-          <button className='text 4-xl hover:bg-red hover:text-white rounded-full p-4 duration-200'>
+          {/* <button className='text 4-xl hover:bg-red hover:text-white rounded-full p-4 duration-200'>
             <FaSearch />
-          </button>
-          <button className='text 4-xl hover:bg-red hover:text-white rounded-full p-4 duration-200'>
+          </button> */}
+          {/* <button className='text 4-xl hover:bg-red hover:text-white rounded-full p-4 duration-200'>
             <IoTicketSharp />
-            </button>
+            </button> */}
             <button onClick={handleLogout} className='hover:bg-red text-red font-semibold hover:text-white 
             rounded-md border-2 border-red px-6 py-2 duration-200 hidden md:block'>
               Logout

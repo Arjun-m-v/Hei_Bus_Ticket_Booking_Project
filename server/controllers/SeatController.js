@@ -1,3 +1,4 @@
+const { where } = require('sequelize');
 const db = require('../models/index')
 const Seat = db.seat;
 
@@ -115,5 +116,72 @@ const getSeatById = async (req,res)=>{
       }
     }
 
+  const updateSeat =async(req,res)=>{
+    try {
+      const seatId = req.params.id
+      if(!seatId){
+        return res.status(404).send({
+          success:false,
+          message:'Invalid Id or Missing Id',
+        })
+      }
+      const { seatNumber,isAvailable,price,busId } = req.body
+      const data = await Seat.update(
+        { seatNumber,isAvailable,price,busId },
+        {
+          where:{
+            id:seatId
+          }
+        }
+      )
+      if(!data){
+        return res.status(500).send({
+          success: false,
+          message: 'Error In Update Data',
+      })
+      }
+      res.status(200).send({
+              success: true,
+              message: 'Seat Details Updated'
+      })
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+        success: false,
+        message: 'Error In update Seat API',
+        error
+      })
+    }
+  }
 
-module.exports = { createSeat,getSeatById,getSeats,getSeatsByBusId };
+  const deleteSeat = async (req,res)=>{
+    try {
+      const seatId = req.params.id
+      if(!seatId){
+        return res.status(404).send({
+          success: false,
+          message: 'Please Provide Valid seat Id'
+      })
+      }
+      await Seat.destroy({
+        where:{
+            id:seatId
+            }
+        }
+    )
+    res.status(200).send({
+        success: true,
+        message: 'Seat Deleted Successfully',
+    })
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({
+          success: false,
+          message: 'Error in Delete Seat API',
+          error,
+      })
+    }
+  }
+
+
+module.exports = { createSeat,getSeatById,getSeats,getSeatsByBusId,updateSeat,deleteSeat };

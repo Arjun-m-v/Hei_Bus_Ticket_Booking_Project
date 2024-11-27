@@ -11,12 +11,12 @@ const createBus = async (req, res) => {
     try {
       const { name,reg_no,source,destination,departure_time,arrival_time,bus_type,total_seats,available_seats,price_per_seat } = req.body;
 
-      if (!name || !reg_no || !source || !destination || !departure_time || !arrival_time || !bus_type || !total_seats || !available_seats || !price_per_seat) {
+      if (!name || !reg_no || !source || !destination || !departure_time || !arrival_time || !bus_type || !total_seats || !available_seats) {
         return res.status(400).send({ success: false, message: 'Please provide all required fields.' });
       }
   
       const data = {
-        name,reg_no,source,destination,departure_time,arrival_time,bus_type,total_seats,available_seats,price_per_seat
+        name,reg_no,source,destination,departure_time,arrival_time,bus_type,total_seats,available_seats
       }
   
       const details = await Buses.create(data);
@@ -101,9 +101,9 @@ const updateBus = async (req,res) =>{
         message:'Invalid Id or Missing Id',
       })
     }
-    const { name,reg_no,source,destination,departure_time,arrival_time,bus_type,total_seats,available_seats,price_per_seat } = req.body
+    const { name,reg_no,source,destination,departure_time,arrival_time,bus_type,total_seats,available_seats } = req.body
     const data = await Buses.update(
-      { name,reg_no,source,destination,departure_time,arrival_time,bus_type,total_seats,available_seats,price_per_seat },
+      { name,reg_no,source,destination,departure_time,arrival_time,bus_type,total_seats,available_seats },
       {
         where:{
           id:busId
@@ -166,7 +166,7 @@ const deleteBus = async (req, res) => {
 const searchBus = async (req, res) => {
   try {
       const { source, destination } = req.query;
-      console.log("hiiiiii:", req.query);
+      // console.log("hiiiiii:", req.query);
       
 
       if (!source && !destination) {

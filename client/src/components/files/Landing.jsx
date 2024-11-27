@@ -8,53 +8,71 @@ import { Link } from 'react-router-dom';
 
 function Landing() {
   const [data, setData] = useState([]); 
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState({ source: "", destination: "" });
   const [loading, setLoading] = useState(true);
+  
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-
-      const token = localStorage.getItem('token'); 
-      if (!token) {
-        alert("You need to log in first.");
-        return;
-      }
-
-        const response = await axios.get(searchQuery  ? `http://localhost:3001/bus/search?search=${searchQuery}` : 'http://localhost:3001/bus/getall',{
-          headers: {
-            'Authorization': `Bearer ${token}`,
-        },
-        });
-
+        const token = localStorage.getItem('token');
+        if (!token) {
+          alert("You need to log in first.");
+          return;
+        }
+    
+        // Destructure source and destination from searchQuery
+        const { source, destination } = searchQuery;
+        console.log(source, destination);
+    
+        // Make the API request based on the searchQuery
+        const response = await axios.get(
+          source && destination
+            ? `http://localhost:3001/bus/search?source=${source}&destination=${destination}`
+            : 'http://localhost:3001/bus/getall',
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+    
         if (response.data && response.data.success && Array.isArray(response.data.data)) {
-          setData(response.data.data); // Access the correct nested array
+          setData(response.data.data);
         } else {
           console.error("Unexpected data format:", response.data);
-          setData([]); // Fallback to an empty array
+          setData([]);
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
-        setData([]); // Handle errors gracefully
+        console.error("Error fetching data:", error.response?.data?.message || error.message);
+        if (error.response?.status === 400) {
+          alert("Invalid search query. Please check your source and destination.");
+        }
+        setData([]);
       } finally {
         setLoading(false);
       }
     };
+    
     fetchData();
   }, [searchQuery]);
 
 
   
-  const handleSearchQueryChange = (query) => {
-    setSearchQuery(query);
-  };
+  const handleSearchQueryChange = (source, destination) => {
+    setSearchQuery({ source, destination });
+};
+
+
+
 // to={`/edit/${bus.id}`
   return (
     
     <div className="bg-gray-100 min-h-screen">
-      <Navbar onSearch={handleSearchQueryChange}/>
+    <Navbar onSearch={(source, destination) => handleSearchQueryChange(source, destination)} />
+
       {loading ? (
         <p className="text-center">Loading...</p>
       ) : data.length > 0 ? (
@@ -67,10 +85,10 @@ function Landing() {
               <p className="text-gray-600 m-2">
                 {bus.departure_time} - {bus.arrival_time}
               </p>
-              <p className="text-gray-600 m-2">Starts @ ₹{bus.price_per_seat}</p>
-              <p className="text-gray-600 m-2">Available Seats: {bus.available_seats}</p>
+              {/* <p className="text-gray-600 m-2">Starts @ ₹{bus.price_per_seat}</p> */}
+              {/* <p className="text-gray-600 m-2">Available Seats: {bus.available_seats}</p> */}
               <Link to={`/booking/${bus.id}`} className='btn bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded mt-2 p-2 m-2'>Book Now</Link>
-              {/* <button onClick={() => navigate('/seat')} className="btn bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-2"> */}
+              {/* <button onClick={() => navigate('/payment')} className="btn bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-2"> */}
                 {/* Book Now */}
               {/* </button> */}
             </div>

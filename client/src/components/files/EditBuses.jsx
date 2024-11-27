@@ -17,7 +17,7 @@ function EditBuses() {
         bus_type: '',
         total_seats: '',
         available_seats: '',
-        price_per_seat: ''
+        // price_per_seat: ''
     });
 
     const [loading, setLoading] = useState(true);
@@ -155,14 +155,14 @@ function EditBuses() {
                     </div>
                     <div>
                     <input value={bus.available_seats || ''} onChange={handleChange} id="available_seats" name="available_seats" type="text" autoComplete="" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"/>
-                </div>
+                </div><br />
 
-                <div className='m-1'>
+                {/* <div className='m-1'>
                     <label for="price_per_seat" className="block text-sm/6 font-medium text-gray-900">Price Per Seat</label>
                     </div>
                     <div>
                     <input value={bus.price_per_seat || ''} onChange={handleChange} id="price_per_seat" name="price_per_seat" type="text" autoComplete="" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"/>
-                </div><br />
+                </div> */}
 
                 <div>
                     <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Submit</button>

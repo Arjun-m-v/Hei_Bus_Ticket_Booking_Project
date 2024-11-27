@@ -17,5 +17,4 @@ router.delete('/delete/:id',authenticateJWT,deleteBus);
 router.get('/search', authenticateJWT,searchBus);
 
 
-
 module.exports=router;

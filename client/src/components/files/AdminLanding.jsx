@@ -93,7 +93,7 @@ function Landing() {
               <th className="border border-slate-300 ...">Bus Type</th>
               <th className="border border-slate-300 ...">Total Seats</th>
               <th className="border border-slate-300 ...">Available Seats</th>
-              <th className="border border-slate-300 ...">Price Per Seat</th>
+              {/* <th className="border border-slate-300 ...">Price Per Seat</th> */}
               </tr>
           </thead>
           <tbody>
@@ -113,7 +113,7 @@ function Landing() {
               <td className="border border-slate-300 ...">{bus.bus_type}</td>
               <td className="border border-slate-300 ...">{bus.total_seats}</td>
               <td className="border border-slate-300 ...">{bus.available_seats}</td>
-              <td className="border border-slate-300 ...">₹ {bus.price_per_seat}</td>
+              {/* <td className="border border-slate-300 ...">₹ {bus.price_per_seat}</td> */}
               <td>
                 <Link to={`/edit/${bus.id}`} className='btn'>
                   <FaEdit />
