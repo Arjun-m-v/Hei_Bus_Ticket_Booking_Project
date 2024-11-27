@@ -7,8 +7,11 @@ import Login from './components/files/Login';
 import AdminLanding from './components/files/AdminLanding';
 import AddBuses from './components/files/AddBuses';
 import EditBuses from './components/files/EditBuses';
-import Booking from './components/files/booking';
 import Footer from './components/files/Footer';
+import AdminNavbar from './components/files/AdminNavbar';
+import Payment from './components/files/Payment';
+import Booking from './components/files/Booking';
+
 
 function App() {
   return (
@@ -17,12 +20,14 @@ function App() {
         <Route path='landing/' element={<Landing/>}/>
         <Route path='/alanding' element={<AdminLanding/>}/>
         <Route path='/nav' element={<Navbar/>}/>
+        <Route path='/anav' element={<AdminNavbar/>}/>
         <Route path='/register' element={<Register/>}/>
         <Route path='/' element={<Login/>}/>
-        <Route path='/booking' element={<Booking/>}/>
         <Route path='/add' element={<AddBuses/>}/>
         <Route path='/edit/:id' element={<EditBuses/>}/>
         <Route path='/footer' element={<Footer/>}/>
+        <Route path='/booking/:id' element={<Booking/>}/>
+        <Route path='/payment' element={<Payment/>}/>
       </Routes>
     </>
   )

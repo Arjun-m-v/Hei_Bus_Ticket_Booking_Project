@@ -5,13 +5,12 @@ import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import { MdAddToPhotos } from "react-icons/md";
-import Navbar from './Navbar';
+import AdminNavbar from './AdminNavbar';
 import Footer from './Footer';
 
 function Landing() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true); 
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,7 +46,6 @@ function Landing() {
   }, []);
   
   
-
   const handleDelete = (id) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this student?");
     if (confirmDelete) {
@@ -73,7 +71,7 @@ function Landing() {
 
   return (
   <div className="bg-gray-100 min-h-screen">
-    <Navbar/>
+    <AdminNavbar/>
     <Row>
       <Col md={1}>
       <Link to="/add" className='btn m-3' style={{ width: "10%", fontSize: '40px', padding: "" }}>

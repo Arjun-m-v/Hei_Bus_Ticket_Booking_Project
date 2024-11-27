@@ -2,6 +2,7 @@
 // const db = require("../config/db");
 const db = require('../models/index')
 const Buses = db.bus;
+const { Op } = require('sequelize'); 
 // const saltRounds = 10;
 
 
@@ -161,5 +162,55 @@ const deleteBus = async (req, res) => {
   }
 }
 
+
+const searchBus = async (req, res) => {
+  try {
+      const { source, destination } = req.query;
+      console.log("hiiiiii:", req.query);
+      
+
+      if (!source && !destination) {
+          return res.status(400).send({ success: false, message: "Please provide at least one search term (source or destination)" });
+      }
+
+      const whereClause = {};
+      if (source) {
+          whereClause.source = { [Op.like]: `%${source}%` };
+      }
+      if (destination) {
+          whereClause.destination = { [Op.like]: `%${destination}%` };
+      }
+
+      const data = await Buses.findAll({
+          where: whereClause,
+      });
+
+      if (data.length === 0) {
+          return res.status(404).send({
+              success: false,
+              message: 'No matching buses found',
+          });
+      }
+
+      res.status(200).send({
+          success: true,
+          message: 'Search Results',
+          data,
+      });
+  } catch (error) {
+      console.error(error);
+      res.status(500).send({
+          success: false,
+          message: 'Error in search API',
+          error,
+      });
+  }
+};
+
+
+
+
+
+
   
-  module.exports = { createBus,getBuses,getBusById,updateBus,deleteBus };
+  module.exports = { createBus,getBuses,getBusById,updateBus,deleteBus,searchBus };

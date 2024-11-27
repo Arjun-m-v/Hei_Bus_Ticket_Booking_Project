@@ -1,5 +1,5 @@
 const express = require('express')
-const { createBus,getBuses,getBusById,updateBus,deleteBus }= require('../controllers/BusController')
+const { createBus,getBuses,getBusById,updateBus,deleteBus,searchBus }= require('../controllers/BusController')
 const authenticateJWT = require('../middleware/authMiddleware');
 
 const router = express.Router()
@@ -14,6 +14,7 @@ router.put('/update/:id',authenticateJWT,updateBus);
 
 router.delete('/delete/:id',authenticateJWT,deleteBus);
 
+router.get('/search', authenticateJWT,searchBus);
 
 
 

@@ -6,7 +6,6 @@ const db = require('../models/index')
 const user = db.user
 
 const loginUser = async (req,res) =>{
-    console.log(req.body);
     
     try {
         console.log("Login attempt with email:", req.body.email);
@@ -23,9 +22,10 @@ const loginUser = async (req,res) =>{
                 message: 'Email does not exist'
             });
         }
+        
 
         const isMatch = await bcryptjs.compare(req.body.password, data.password);
-        
+
         if (!isMatch) {
             return res.status(401).send({
                 success: false,
@@ -35,7 +35,7 @@ const loginUser = async (req,res) =>{
 
 
         const token=jwt.sign(
-            { id:data.id,email:data.email},
+            { id:data.id,email:data.email,role: data.role },
             process.env.JWT_SECRET,
             {expiresIn:'1h'}
         );
@@ -46,8 +46,9 @@ const loginUser = async (req,res) =>{
             success: true,
             message: 'Login successful',
             data: data,
-            token
+            token, 
         });
+        
 
     } catch (error) {
         console.error("Error during login:", error); // Log any error
