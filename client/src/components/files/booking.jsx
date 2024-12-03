@@ -26,7 +26,21 @@ const Booking = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/seat/getall/${id}`);
+
+          const token = localStorage.getItem('token'); 
+          if (!token) {
+              alert('You are not logged in. Please log in first.');
+              return;
+          }
+      
+          const config = {
+              headers: {
+                  Authorization: `Bearer ${token}`
+              }
+          };
+
+
+        const response = await axios.get(`http://localhost:3001/seat/getall/${id}`,config);
         if (response.data && response.data.success && Array.isArray(response.data.data)) {
           setData(response.data.data); 
         } else {
@@ -60,10 +74,13 @@ const Booking = () => {
         {loading ? (
           <p className="text-center">Loading...</p>
         ) : data.length > 0 ? (
+          
           <Row>
+          <h1 className="text-2xl font-bold mb-2">Select Your Seats :</h1>
+
             {/* Left side: Seat arrangements */}
             <Col md={8}>
-              <h1 className="text-2xl font-bold mb-2">Select Your Seats</h1>
+
               <div className="border p-3">
                 <div className="grid grid-cols-4 gap-1">
                   {data.map((seat, index) => (
@@ -73,13 +90,11 @@ const Booking = () => {
                         ${seat.isAvailable === false ? 'text-red-500 opacity-500' : ''} 
                         ${selectedSeats.includes(seat.seatNumber) ? 'text-green-500' : ''} 
                         ${seat.isAvailable && !selectedSeats.includes(seat.seatNumber) ? 'text-blue-500' : ''}`}
-                      onClick={() => seat.isAvailable && handleSeatSelection(seat.seatNumber)}
-                    >
+                      onClick={() => seat.isAvailable && handleSeatSelection(seat.seatNumber)}>
                       <MdOutlineChair
                         className={`text-4xl 
                           ${selectedSeats.includes(seat.seatNumber) ? 'text-green-500' : ''} 
-                          ${seat.isAvailable === false ? 'text-red-500 opacity-500' : ''}`}
-                      />
+                          ${seat.isAvailable === false ? 'text-red-500 opacity-500' : ''}`}/>
                       <p className="text-sm text-gray-500">{seat.seatNumber}</p>
                     </div>
                   ))}
@@ -97,8 +112,7 @@ const Booking = () => {
                 <p>Total Amount: ₹{calculateTotalAmount()}</p>
                 <button
                   onClick={() => navigate('/payment')}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3"
-                >
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3">
                   Confirm Booking
                 </button>
               </div>

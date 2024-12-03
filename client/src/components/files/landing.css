@@ -1,3 +1,25 @@
 #grid:hover{
     transform: scale(1.05);
 }
+
+
+/* landing.css */
+.modal-overlay {
+    position: fixed;
+    inset: 0; /* Equivalent to top: 0; right: 0; bottom: 0; left: 0 */
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* High enough to override any other stacking context */
+  }
+  
+  .modal-content {
+    background: white;
+    border-radius: 8px;
+    padding: 16px;
+    width: 90%;
+    max-width: 400px;
+    z-index: 1010; /* Slightly higher for content inside the modal */
+  }
+  

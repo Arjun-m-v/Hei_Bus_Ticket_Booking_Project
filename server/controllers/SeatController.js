@@ -2,28 +2,99 @@ const { where } = require('sequelize');
 const db = require('../models/index')
 const Seat = db.seat;
 
-const createSeat = async (req,res)=>{
-    try {
-        const { seatNumber,isAvailable,price,busId} = req.body;
-  
-        if (!seatNumber || !isAvailable || !price || !busId) {
+const createSeat = async (req, res) => {
+  try {
+      const { seatNumber, isAvailable, price, busId } = req.body;
+
+      // Validate the required fields
+      if (!seatNumber || !price || !busId) {
           return res.status(400).send({ success: false, message: 'Please provide all required fields.' });
-        }
-    
-        const data = {
-          seatNumber,isAvailable:'seat'? true : false,price,busId
-        }
-    
-        const details = await Seat.create(data); 
-        if (!details) {
-          return res.status(400).send({ success: false, message: 'Error got while saving time..!' });
-        }
-        res.status(201).send({ success: true, message: 'Seat created successfully.' });
-      } catch (error) {
-        console.log(error);
-        res.status(500).send({ success: false, message: 'Error creating Seat.', error });
       }
-}
+
+      // Default `isAvailable` to true if it's not provided or is an invalid value
+      const seatAvailable = (isAvailable === undefined || isAvailable === '') ? true : Boolean(isAvailable);
+
+      // Ensure seatNumber is a valid value (not empty or invalid)
+      if (!seatNumber.trim()) {
+          return res.status(400).send({ success: false, message: 'Seat number cannot be empty.' });
+      }
+      
+      // const hashedPassword = await bcryptjs.hash(password, saltRounds);
+      // console.log(`Hashed password: `, hashedPassword);
+
+
+      const data = {
+          seatNumber,
+          isAvailable: seatAvailable,
+          price,
+          busId
+      };
+
+      const details = await Seat.create(data);
+      console.log("Seat created:", details);
+
+      if (!details) {
+          return res.status(400).send({ success: false, message: 'Error while saving seat data.' });
+      }
+      res.status(201).send({ success: true, message: 'Seat created successfully.' });
+  } catch (error) {
+      console.log(error);
+      res.status(500).send({ success: false, message: 'Error creating seat.', error });
+  }
+};
+
+
+const createSeats = async (req, res) => {
+  try {
+      const { totalSeats, price, busId } = req.body;
+
+      // Validate the required fields
+      if (!totalSeats || !price || !busId) {
+          return res.status(400).send({
+              success: false,
+              message: 'Please provide all required fields (totalSeats, price, busId).',
+          });
+      }
+
+      // Create seats dynamically with numbers like 1A, 2A, ..., totalSeats
+      const seatData = [];
+      for (let i = 1; i <= totalSeats; i++) {
+          seatData.push({
+              seatNumber: `${i}A`, // Format for seat naming
+              isAvailable: true, // Default to true
+              price,
+              busId,
+          });
+      }
+
+      // Bulk insert seats into the database
+      const createdSeats = await Seat.bulkCreate(seatData);
+
+      if (!createdSeats) {
+          return res.status(500).send({
+              success: false,
+              message: 'Error while creating seats.',
+          });
+      }
+
+      res.status(201).send({
+          success: true,
+          message: `${totalSeats} seats created successfully.`,
+          seats: createdSeats,
+      });
+  } catch (error) {
+      console.error('Error creating seats:', error);
+      res.status(500).send({
+          success: false,
+          message: 'Error while creating seats.',
+          error,
+      });
+  }
+};
+
+
+
+
 
 const getSeatById = async (req,res)=>{
     try {
@@ -47,7 +118,6 @@ const getSeatById = async (req,res)=>{
     res.status(200).send({
       success: true,
       seatDetails: data,
-      
   })
     } catch (error) {
       console.log(error);
@@ -184,4 +254,4 @@ const getSeatById = async (req,res)=>{
   }
 
 
-module.exports = { createSeat,getSeatById,getSeats,getSeatsByBusId,updateSeat,deleteSeat };
+module.exports = { createSeat,getSeatById,getSeats,getSeatsByBusId,updateSeat,deleteSeat,createSeats };

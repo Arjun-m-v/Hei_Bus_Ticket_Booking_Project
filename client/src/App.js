@@ -11,6 +11,8 @@ import Footer from './components/files/Footer';
 import AdminNavbar from './components/files/AdminNavbar';
 import Payment from './components/files/Payment';
 import Booking from './components/files/Booking';
+import AddSeats from './components/files/AddSeats';
+import Map from './components/files/Map';
 
 
 function App() {
@@ -28,6 +30,8 @@ function App() {
         <Route path='/footer' element={<Footer/>}/>
         <Route path='/booking/:id' element={<Booking/>}/>
         <Route path='/payment' element={<Payment/>}/>
+        <Route path='/addseats/:id' element={<AddSeats/>}/>
+        <Route path='/map' element={<Map/>}/>
       </Routes>
     </>
   )

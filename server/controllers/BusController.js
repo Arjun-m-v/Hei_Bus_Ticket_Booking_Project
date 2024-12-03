@@ -1,29 +1,35 @@
-// const bcryptjs = require('bcryptjs')
-// const db = require("../config/db");
 const db = require('../models/index')
 const Buses = db.bus;
 const { Op } = require('sequelize'); 
-// const saltRounds = 10;
+const bcryptjs = require('bcryptjs')
+const saltRounds = 10;
+
 
 
 
 const createBus = async (req, res) => {
     try {
-      const { name,reg_no,source,destination,departure_time,arrival_time,bus_type,total_seats,available_seats,price_per_seat } = req.body;
+      const { name,reg_no,source,destination,departure_time,arrival_time,bus_type } = req.body;
 
-      if (!name || !reg_no || !source || !destination || !departure_time || !arrival_time || !bus_type || !total_seats || !available_seats) {
+      if (!name || !reg_no || !source || !destination || !departure_time || !arrival_time || !bus_type) {
         return res.status(400).send({ success: false, message: 'Please provide all required fields.' });
       }
+
+      // const hashedPassword = await bcryptjs.hash(password, saltRounds);
+      // console.log(`Hashed password: `, hashedPassword);
   
       const data = {
-        name,reg_no,source,destination,departure_time,arrival_time,bus_type,total_seats,available_seats
+        name,reg_no,source,destination,departure_time,arrival_time,bus_type
       }
   
       const details = await Buses.create(data);
       if (!details) {
         return res.status(400).send({ success: false, message: 'Error got while saving time..!' });
       }
-      res.status(201).send({ success: true, message: 'bus created successfully.' });
+      res.status(201).send({ success: true, message: 'bus created successfully.',
+        busId: details.id, // Include the auto-generated ID here
+        busDetails: details
+       });
     } catch (error) {
       console.log(error);
       res.status(500).send({ success: false, message: 'Error creating bus.', error });
@@ -101,9 +107,9 @@ const updateBus = async (req,res) =>{
         message:'Invalid Id or Missing Id',
       })
     }
-    const { name,reg_no,source,destination,departure_time,arrival_time,bus_type,total_seats,available_seats } = req.body
+    const { name,reg_no,source,destination,departure_time,arrival_time,bus_type } = req.body
     const data = await Buses.update(
-      { name,reg_no,source,destination,departure_time,arrival_time,bus_type,total_seats,available_seats },
+      { name,reg_no,source,destination,departure_time,arrival_time,bus_type },
       {
         where:{
           id:busId
@@ -135,6 +141,8 @@ const updateBus = async (req,res) =>{
 const deleteBus = async (req, res) => {
   try {
       const busId = req.params.id
+      console.log("this is this:",req);
+      
       if (!busId) {
           return res.status(404).send({
               success: false,

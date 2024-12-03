@@ -33,7 +33,7 @@ app.use('/bus',require('./routes/BuslistRoutes.js'))
 app.use('/user',require('./routes/UserlistRoutes.js'))
 app.use('/auth',require('./routes/AuthRoutes.js'))
 app.use('/seat',require('./routes/SeatRoutes.js'))
-
+app.use('/booking',require('./routes/BookingRoutes.js'))
 
 
 app.listen(3001, () => {

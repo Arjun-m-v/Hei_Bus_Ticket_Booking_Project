@@ -19,8 +19,8 @@ function AdminNavbar() {
 
   return (
     <>
-      <div className=' flex justify-between items-center py-8 border'>
-        <div className='m-5 text-2xl flex items-center gap-2 font-bold uppercase'>
+      <div className=' flex justify-between items-center py-1 border'>
+        <div className='m-3 text-2xl flex items-center gap-2 font-bold uppercase'>
           <FaBusAlt />
           <p className='text-red' style={{fontFamily:"cursive"}}>"</p>
           <p style={{fontFamily:"cursive"}}>Hei-</p>

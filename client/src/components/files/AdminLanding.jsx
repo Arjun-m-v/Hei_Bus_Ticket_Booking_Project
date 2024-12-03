@@ -1,12 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Row,Col } from 'react-bootstrap';
+// import { Row,Col } from 'react-bootstrap';
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import { MdAddToPhotos } from "react-icons/md";
 import AdminNavbar from './AdminNavbar';
 import Footer from './Footer';
+import { MdEventSeat } from "react-icons/md";
 
 function Landing() {
   const [data, setData] = useState([]);
@@ -72,15 +73,14 @@ function Landing() {
   return (
   <div className="bg-gray-100 min-h-screen">
     <AdminNavbar/>
-    <Row>
-      <Col md={1}>
-      <Link to="/add" className='btn m-3' style={{ width: "10%", fontSize: '40px', padding: "" }}>
-        <MdAddToPhotos className='m-5'/><p style={{fontSize:'15px'}}><b>ADD NEW BUS</b></p>
+    <div>
+      <Link to="/add" className='btn m-1' style={{ width: "10%", fontSize: '40px', padding: "" }}>
+        <MdAddToPhotos className='m-1'/><p style={{fontSize:'10px'}}><b>ADD NEW BUS</b></p>
       </Link>
-      </Col>
-      <Col md={11}>
-        <div className=' overflow-auto p-8 m-33'>
-          <table className="w-full border-separate border-spacing-2 border border-slate-800">
+    </div>
+    <div>
+      <div className=' overflow-auto p-8 m-33'>
+        <table className="w-full border-separate border-spacing-2 border border-slate-800">
           <thead>
               <tr>
               <th className="border border-slate-300 ...">Id</th>
@@ -91,9 +91,9 @@ function Landing() {
               <th className="border border-slate-300 ...">Departure Time</th>
               <th className="border border-slate-300 ...">Arrival Time</th>
               <th className="border border-slate-300 ...">Bus Type</th>
-              <th className="border border-slate-300 ...">Total Seats</th>
+              {/* <th className="border border-slate-300 ...">Total Seats</th>
               <th className="border border-slate-300 ...">Available Seats</th>
-              {/* <th className="border border-slate-300 ...">Price Per Seat</th> */}
+              <th className="border border-slate-300 ...">Seat Arrangement</th> */}
               </tr>
           </thead>
           <tbody>
@@ -111,22 +111,34 @@ function Landing() {
               <td className="border border-slate-300 ...">{bus.departure_time}</td>
               <td className="border border-slate-300 ...">{bus.arrival_time}</td>
               <td className="border border-slate-300 ...">{bus.bus_type}</td>
-              <td className="border border-slate-300 ...">{bus.total_seats}</td>
-              <td className="border border-slate-300 ...">{bus.available_seats}</td>
-              {/* <td className="border border-slate-300 ...">₹ {bus.price_per_seat}</td> */}
+              {/* <td className="border border-slate-300 ...">{bus.total_seats}</td>
+              <td className="border border-slate-300 ...">{bus.available_seats}</td> */}
+              {/* <td>
+                <Link to={`/addseats/${bus.id}`}><p>Click here...</p></Link>
+              </td> */}
               <td>
                 <Link to={`/edit/${bus.id}`} className='btn'>
                   <FaEdit />
                 </Link>
                 <button onClick={() => handleDelete(bus.id)} className="btn"><MdDelete className='text-red'/></button>
+                <Link className='btn'>
+                {/* to={`/editbus/${bus.id}`} */}
+                  <MdEventSeat className='text-secondary'/>
+                </Link>
               </td>
             </tr>
           ))}
           </tbody>
-          </table>
+        </table>
       </div>
-      </Col>
-    </Row>
+    </div>
+    {/* <Row>
+      <Col md={1}> */}
+
+      {/* </Col> */}
+      {/* <Col md={10}> */}
+      {/* </Col> */}
+    {/* </Row> */}
     <Footer/>
   </div>
   );

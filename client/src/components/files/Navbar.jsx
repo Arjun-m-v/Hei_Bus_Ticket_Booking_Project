@@ -49,7 +49,7 @@ function Navbar({ onSearch }) {
   return (
     <>
       <div className='flex justify-between items-center py-1 border'>
-        <div className='m-5 text-2xl flex items-center gap-2 font-bold uppercase'>
+        <div className='m-2 text-2xl flex items-center gap-2 font-bold uppercase'>
           <FaBusAlt />
           <p className='text-red' style={{ fontFamily: "cursive" }}>"</p>
           <p style={{ fontFamily: "cursive" }}>Hei-</p>
@@ -81,8 +81,8 @@ function Navbar({ onSearch }) {
 
       {/* Search Modal */}
       {isModalOpen && (
-        <div className='fixed inset-px bg-black bg-opacity-50 flex justify-center items-center'>
-          <div className='bg-white rounded-lg p-6 w-96'>
+        <div className='inset-px bg-black bg-opacity-50 flex justify-center items-center modal-overlay'>
+          <div className='bg-white rounded-lg p-6 w-96 modal-content'>
             <h2 className='text-xl font-bold mb-4'>Search Buses</h2>
             <input
               type='text'

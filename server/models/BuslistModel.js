@@ -28,12 +28,12 @@ const bus = (sequelize,Sequelize)=>{
             bus_type:{
                 type:Sequelize.STRING,
             },
-            total_seats:{
-                type:Sequelize.INTEGER,
-            },
-            available_seats:{
-                type:Sequelize.INTEGER,
-            },
+            // total_seats:{
+            //     type:Sequelize.INTEGER,
+            // },
+            // available_seats:{
+            //     type:Sequelize.INTEGER,
+            // },
         }
     );
     return bus;

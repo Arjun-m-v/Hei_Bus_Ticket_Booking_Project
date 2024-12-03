@@ -1,14 +1,16 @@
 const express = require('express')
-const { createSeat,getSeatById,getSeats,getSeatsByBusId,updateSeat,deleteSeat }= require('../controllers/SeatController')
-// const authenticateJWT = require('../middleware/authMiddleware');
+const { createSeat,createSeats,getSeatById,getSeats,getSeatsByBusId,updateSeat,deleteSeat }= require('../controllers/SeatController')
+const authenticateJWT = require('../middleware/authMiddleware');
 
 const router = express.Router()
 
-router.post('/create',createSeat);
+router.post('/create',authenticateJWT,createSeat);
 
-router.get('/get/:id',getSeatById);
+router.post('/createSeats',createSeats);
 
-router.get('/getall',getSeats);
+router.get('/get/:id',authenticateJWT,getSeatById);
+
+router.get('/getall',authenticateJWT,getSeats);
 
 router.get('/getall/:id',getSeatsByBusId);
 
