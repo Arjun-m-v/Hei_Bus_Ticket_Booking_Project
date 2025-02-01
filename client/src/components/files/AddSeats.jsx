@@ -42,8 +42,8 @@ function AddSeats() {
         busId: id, // Use the bus ID from params
     };
 
-    axios
-        .post('http://localhost:3001/seat/createSeats', requestData, config)
+      
+    axios.post('http://localhost:3001/seat/createSeats', requestData, config)
         .then((response) => {
             alert(`${requestData.totalSeats} seats created successfully.`);
             navigate('/alanding');
@@ -65,8 +65,7 @@ function AddSeats() {
           <div>
             <label
               htmlFor="totalSeats"
-              className="m-2 block text-sm font-medium text-gray-900"
-            >
+              className="m-2 block text-sm font-medium text-gray-900">
               Total number of seats:
             </label>
             <input
@@ -76,15 +75,13 @@ function AddSeats() {
               name="totalSeats"
               type="number"
               required
-              className="block w-full rounded-md border py-1.5 text-gray-900 shadow-sm"
-            />
+              className="block w-full rounded-md border py-1.5 text-gray-900 shadow-sm"/>
           </div>
 
           <div>
             <label
               htmlFor="price"
-              className="m-2 block text-sm font-medium text-gray-900"
-            >
+              className="m-2 block text-sm font-medium text-gray-900">
               Price per seat:
             </label>
             <input
@@ -94,15 +91,13 @@ function AddSeats() {
               name="price"
               type="number"
               required
-              className="block w-full rounded-md border py-1.5 text-gray-900 shadow-sm"
-            />
+              className="block w-full rounded-md border py-1.5 text-gray-900 shadow-sm"/>
           </div>
 
           <div className="mt-4">
             <button
               type="submit"
-              className="flex justify-center w-full px-4 py-2 text-xs font-semibold text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-500"
-            >
+              className="flex justify-center w-full px-4 py-2 text-xs font-semibold text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-500">
               Submit
             </button>
           </div>

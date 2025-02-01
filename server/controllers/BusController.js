@@ -1,5 +1,6 @@
 const db = require('../models/index')
 const Buses = db.bus;
+const Seat = db.seat;
 const { Op } = require('sequelize'); 
 const bcryptjs = require('bcryptjs')
 const saltRounds = 10;
@@ -141,7 +142,7 @@ const updateBus = async (req,res) =>{
 const deleteBus = async (req, res) => {
   try {
       const busId = req.params.id
-      console.log("this is this:",req);
+      console.log("this is this:",req.params.id);
       
       if (!busId) {
           return res.status(404).send({
@@ -149,12 +150,21 @@ const deleteBus = async (req, res) => {
               message: 'Please Provide Valid bus Id'
           })
       }
-      await Buses.destroy({
-          where:{
-              id:busId
-              }
+      
+
+      await Seat.destroy({
+        where: {
+           busId: busId 
           }
-      )
+      }
+      );
+
+      await Buses.destroy({
+          where: {
+             id: busId 
+            }
+      });
+
       res.status(200).send({
           success: true,
           message: 'Bus Deleted Successfully',

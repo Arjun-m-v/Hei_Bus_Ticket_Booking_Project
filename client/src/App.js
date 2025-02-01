@@ -13,6 +13,7 @@ import Payment from './components/files/Payment';
 import Booking from './components/files/Booking';
 import AddSeats from './components/files/AddSeats';
 import Map from './components/files/Map';
+import Loading from './components/files/Loading';
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
         <Route path='/payment' element={<Payment/>}/>
         <Route path='/addseats/:id' element={<AddSeats/>}/>
         <Route path='/map' element={<Map/>}/>
+        <Route path='/loading' element={<Loading/>}/>
       </Routes>
     </>
   )

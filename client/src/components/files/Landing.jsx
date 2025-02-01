@@ -11,7 +11,7 @@ function Landing() {
   const [data, setData] = useState([]);
   const [searchQuery, setSearchQuery] = useState({ source: "", destination: "" });
   const [loading, setLoading] = useState(true);
-  const [distance, setDistance] = useState(null); // State to store the distance
+  const [distance, setDistance] = useState(null); 
   
   const navigate = useNavigate();
 
@@ -55,7 +55,7 @@ function Landing() {
     const fetchDistance = async () => {
       try {
         const origin = '9.9312,76.2673'; 
-        const destination = '12.9716,77.5946'; 
+        const destination = '12.9716,77.5946';
         const apiKey = 'qt6s2PT1CR07PD7SaOAApzfftVSPoCEkw8H5aF30cGda4h6yTpggxVEBblNMhTMm';
 
         const response = await axios.get(
@@ -63,7 +63,9 @@ function Landing() {
         );
 
         if (response.data && response.data.rows[0].elements[0].status === "OK") {
-          setDistance(response.data.rows[0].elements[0].distance.text); // Extract the distance
+          setDistance(response.data.rows[0].elements[0].distance.text); 
+          console.log(response.data);
+          
         } else {
           setDistance("Unable to calculate distance");
         }
@@ -87,7 +89,7 @@ function Landing() {
       {loading ? (
         <p className="text-center">Loading...</p>
       ) : data.length > 0 ? (
-        <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="p-4 grid xl:grid-cols-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {data.map((bus, index) => (
             <div key={index} className="bg-white rounded-lg shadow-md p-4 relative" id="grid">
               <h1 className="absolute top-3 right-5"><b>{bus.source} To {bus.destination}</b></h1>
@@ -95,7 +97,7 @@ function Landing() {
                 {bus.departure_time} - {bus.arrival_time}
               </p>
               <p className="absolute bottom-4 right-3 text-gray-600 m-2">Distance : {distance || "Loading distance..."}</p>
-              <Link to={`/map`} className="absolute bottom-3 right-3"><IoEarth /></Link>
+              {/* <Link to={`/map`} className="absolute bottom-3 right-3"><IoEarth /></Link> */}
               <h2 className="text-lg font-bold">{bus.name}</h2>
               <p className="text-gray-600 m-2">{bus.bus_type}</p>
               <Link to={`/booking/${bus.id}`} className="btn bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded mt-2 p-2 m-2">Book Now</Link>
